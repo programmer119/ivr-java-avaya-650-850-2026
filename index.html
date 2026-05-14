@@ -53,12 +53,16 @@
               <p class="eyebrow">현재 시나리오</p>
               <h2 id="scenarioTitle">콜을 수신하면 IVR이 시작됩니다</h2>
             </div>
-            <button id="speakToggle" class="toggle-button" aria-pressed="true">음성 ON</button>
+            <div class="voice-actions">
+              <button id="replayVoice" class="toggle-button">다시 듣기</button>
+              <button id="speakToggle" class="toggle-button" aria-pressed="true">음성 ON</button>
+            </div>
           </div>
 
           <div class="prompt-box">
             <span>TTS 안내문</span>
             <p id="promptText">전화 수신 버튼을 눌러 테스트 콜을 시작하세요.</p>
+            <small id="voiceStatus">브라우저 TTS 준비중</small>
           </div>
 
           <div class="metrics">

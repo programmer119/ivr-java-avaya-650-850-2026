@@ -104,7 +104,9 @@ const els = {
   routeTarget: document.querySelector("#routeTarget"),
   eventLog: document.querySelector("#eventLog"),
   clearLog: document.querySelector("#clearLog"),
+  replayVoice: document.querySelector("#replayVoice"),
   speakToggle: document.querySelector("#speakToggle"),
+  voiceStatus: document.querySelector("#voiceStatus"),
   keypad: document.querySelector(".keypad"),
   flowSteps: [...document.querySelectorAll(".flow-step")],
 };
@@ -112,6 +114,7 @@ const els = {
 let callStarted = false;
 let currentScenario = "welcome";
 let speechEnabled = true;
+let availableVoices = [];
 
 function now() {
   return new Intl.DateTimeFormat("ko-KR", {
@@ -138,12 +141,60 @@ function setFlow(activeStep) {
   });
 }
 
-function speak(text) {
-  if (!speechEnabled || !("speechSynthesis" in window)) return;
+function updateVoiceStatus(message) {
+  els.voiceStatus.textContent = message;
+}
+
+function loadVoices() {
+  if (!("speechSynthesis" in window)) {
+    updateVoiceStatus("이 브라우저는 음성 합성을 지원하지 않습니다");
+    return [];
+  }
+
+  availableVoices = window.speechSynthesis.getVoices();
+  if (availableVoices.length > 0) {
+    const koreanVoice = availableVoices.find((voice) => voice.lang.toLowerCase().startsWith("ko"));
+    updateVoiceStatus(koreanVoice ? `TTS 준비됨: ${koreanVoice.name}` : "TTS 준비됨: 기본 음성 사용");
+  }
+
+  return availableVoices;
+}
+
+function getVoice() {
+  const voices = availableVoices.length > 0 ? availableVoices : loadVoices();
+  return (
+    voices.find((voice) => voice.lang.toLowerCase().startsWith("ko")) ||
+    voices.find((voice) => voice.default) ||
+    voices[0]
+  );
+}
+
+function speak(text, source = "AUTO") {
+  if (!speechEnabled) {
+    updateVoiceStatus("음성이 꺼져 있습니다");
+    return;
+  }
+
+  if (!("speechSynthesis" in window)) {
+    updateVoiceStatus("이 브라우저는 음성 합성을 지원하지 않습니다");
+    addLog("TTS ERROR", "Web Speech API unsupported");
+    return;
+  }
+
   window.speechSynthesis.cancel();
   const utterance = new SpeechSynthesisUtterance(text);
   utterance.lang = "ko-KR";
   utterance.rate = 0.95;
+  utterance.pitch = 1;
+  utterance.volume = 1;
+  const voice = getVoice();
+  if (voice) utterance.voice = voice;
+  utterance.onstart = () => updateVoiceStatus(`음성 재생중 (${source})`);
+  utterance.onend = () => updateVoiceStatus("음성 재생 완료");
+  utterance.onerror = () => {
+    updateVoiceStatus("음성 재생 실패: 다시 듣기를 눌러주세요");
+    addLog("TTS ERROR", "speechSynthesis error\nTry replay button after user gesture");
+  };
   window.speechSynthesis.speak(utterance);
 }
 
@@ -235,11 +286,21 @@ els.clearLog.addEventListener("click", () => {
   els.eventLog.innerHTML = "";
 });
 
+els.replayVoice.addEventListener("click", () => {
+  const scenario = scenarios[currentScenario];
+  speak(scenario.prompt, "REPLAY");
+  addLog("TTS REPLAY", `Manual replay requested\nnode=${scenario.node}`);
+});
+
 els.speakToggle.addEventListener("click", () => {
   speechEnabled = !speechEnabled;
   els.speakToggle.textContent = speechEnabled ? "음성 ON" : "음성 OFF";
   els.speakToggle.setAttribute("aria-pressed", String(speechEnabled));
   if (!speechEnabled) window.speechSynthesis?.cancel();
+  if (speechEnabled) {
+    loadVoices();
+    speak(scenarios[currentScenario].prompt, "TOGGLE");
+  }
 });
 
 els.keypad.addEventListener("click", (event) => {
@@ -247,5 +308,12 @@ els.keypad.addEventListener("click", (event) => {
   if (!button) return;
   handleDtmf(button.dataset.key);
 });
+
+if ("speechSynthesis" in window) {
+  loadVoices();
+  window.speechSynthesis.addEventListener("voiceschanged", loadVoices);
+} else {
+  updateVoiceStatus("이 브라우저는 음성 합성을 지원하지 않습니다");
+}
 
 addLog("READY", "Prototype loaded\nMRCP gateway profile=tts-prod-like");
