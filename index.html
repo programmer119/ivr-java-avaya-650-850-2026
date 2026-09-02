@@ -8,115 +8,14 @@
   </head>
   <body>
     <main class="shell">
-      <section class="topbar" aria-label="프로젝트 개요">
-        <div>
-          <p class="eyebrow">Avaya Experience Portal IVR</p>
-          <h1>미래에셋증권 콜센터 TTS/MRCP 시뮬레이터</h1>
-        </div>
-        <div class="status-cluster">
-          <span id="callStatus" class="status live">대기중</span>
-          <span class="chip">Java Backend</span>
-          <span class="chip">MRCP v2</span>
-          <span class="chip">TTS Gateway</span>
-        </div>
-      </section>
-
+      <section class="topbar" aria-label="프로젝트 개요"><div><p class="eyebrow">Avaya Experience Portal IVR</p><h1>미래에셋증권 콜센터 TTS/MRCP 시뮬레이터</h1></div><div class="status-cluster"><span id="callStatus" class="status live">대기중</span><span class="chip">Java Backend</span><span class="chip">MRCP v2</span><span class="chip">TTS Gateway</span></div></section>
       <section class="workspace">
-        <section class="phone-panel" aria-label="전화 입력 패널">
-          <div class="phone-screen">
-            <p class="screen-label">INBOUND CALL</p>
-            <strong id="callerNumber">02-3774-0000</strong>
-            <span id="currentNode">콜 연결 전</span>
-          </div>
-
-          <div class="primary-actions">
-            <button id="startCall" class="call-button">전화 수신</button>
-            <button id="resetCall" class="ghost-button">초기화</button>
-          </div>
-
-          <div class="keypad" aria-label="DTMF 입력">
-            <button data-key="1"><strong>1</strong><span>계좌조회</span></button>
-            <button data-key="2"><strong>2</strong><span>주문/체결</span></button>
-            <button data-key="3"><strong>3</strong><span>이체</span></button>
-            <button data-key="4"><strong>4</strong><span>시세</span></button>
-            <button data-key="5"><strong>5</strong><span>사고신고</span></button>
-            <button data-key="6"><strong>6</strong><span>상품상담</span></button>
-            <button data-key="*"><strong>*</strong><span>이전</span></button>
-            <button data-key="0"><strong>0</strong><span>상담원</span></button>
-            <button data-key="#"><strong>#</strong><span>반복</span></button>
-          </div>
-        </section>
-
-        <section class="main-panel" aria-label="IVR 처리 현황">
-          <div class="panel-header">
-            <div>
-              <p class="eyebrow">현재 시나리오</p>
-              <h2 id="scenarioTitle">콜을 수신하면 IVR이 시작됩니다</h2>
-            </div>
-            <div class="voice-actions">
-              <button id="replayVoice" class="toggle-button">다시 듣기</button>
-              <button id="speakToggle" class="toggle-button" aria-pressed="true">음성 ON</button>
-            </div>
-          </div>
-
-          <div class="prompt-box">
-            <span>TTS 안내문</span>
-            <p id="promptText">전화 수신 버튼을 눌러 테스트 콜을 시작하세요.</p>
-            <small id="voiceStatus">브라우저 TTS 준비중</small>
-          </div>
-
-          <div class="metrics">
-            <div>
-              <span>MRCP 상태</span>
-              <strong id="mrcpState">IDLE</strong>
-            </div>
-            <div>
-              <span>마지막 입력</span>
-              <strong id="lastInput">-</strong>
-            </div>
-            <div>
-              <span>라우팅 결과</span>
-              <strong id="routeTarget">대기</strong>
-            </div>
-          </div>
-
-          <div class="flow">
-            <div class="flow-step active" data-node="welcome">
-              <span>01</span>
-              <p>대표번호 인입</p>
-            </div>
-            <div class="flow-step" data-node="menu">
-              <span>02</span>
-              <p>DTMF 메뉴 선택</p>
-            </div>
-            <div class="flow-step" data-node="tts">
-              <span>03</span>
-              <p>TTS 문장 생성</p>
-            </div>
-            <div class="flow-step" data-node="route">
-              <span>04</span>
-              <p>업무 큐 라우팅</p>
-            </div>
-            <div class="flow-step" data-node="monitor">
-              <span>05</span>
-              <p>적용/모니터링</p>
-            </div>
-          </div>
-        </section>
-
-        <aside class="side-panel" aria-label="MRCP 연동 로그">
-          <div class="panel-header compact">
-            <div>
-              <p class="eyebrow">연동 로그</p>
-              <h2>MRCP / IVR 이벤트</h2>
-            </div>
-            <button id="clearLog" class="icon-button" title="로그 지우기">×</button>
-          </div>
-          <ol id="eventLog" class="event-log"></ol>
-        </aside>
+        <section class="phone-panel" aria-label="전화 입력 패널"><div class="phone-screen"><p class="screen-label">INBOUND CALL</p><strong id="callerNumber">02-3774-0000</strong><span id="currentNode">콜 연결 전</span></div><div class="primary-actions"><button id="startCall" class="call-button">전화 수신</button><button id="resetCall" class="ghost-button">초기화</button></div><div class="keypad" aria-label="DTMF 입력"><button data-key="1"><strong>1</strong><span>계좌조회</span></button><button data-key="2"><strong>2</strong><span>주문/체결</span></button><button data-key="3"><strong>3</strong><span>이체</span></button><button data-key="4"><strong>4</strong><span>시세</span></button><button data-key="5"><strong>5</strong><span>사고신고</span></button><button data-key="6"><strong>6</strong><span>상품상담</span></button><button data-key="*"><strong>*</strong><span>이전</span></button><button data-key="0"><strong>0</strong><span>상담원</span></button><button data-key="#"><strong>#</strong><span>반복</span></button></div></section>
+        <section class="main-panel" aria-label="IVR 처리 현황"><div class="panel-header"><div><p class="eyebrow">현재 시나리오</p><h2 id="scenarioTitle">콜을 수신하면 IVR이 시작됩니다</h2></div><div class="voice-actions"><button id="replayVoice" class="toggle-button">다시 듣기</button><button id="speakToggle" class="toggle-button" aria-pressed="true">음성 ON</button></div></div><div class="prompt-box"><span>TTS 안내문</span><p id="promptText">전화 수신 버튼을 눌러 테스트 콜을 시작하세요.</p><small id="voiceStatus">브라우저 TTS 준비중</small></div><div class="metrics"><div><span>MRCP 상태</span><strong id="mrcpState">IDLE</strong></div><div><span>마지막 입력</span><strong id="lastInput">-</strong></div><div><span>라우팅 결과</span><strong id="routeTarget">대기</strong></div></div><div class="flow"><div class="flow-step active" data-node="welcome"><span>01</span><p>대표번호 인입</p></div><div class="flow-step" data-node="menu"><span>02</span><p>DTMF 메뉴 선택</p></div><div class="flow-step" data-node="tts"><span>03</span><p>TTS 문장 생성</p></div><div class="flow-step" data-node="route"><span>04</span><p>업무 큐 라우팅</p></div><div class="flow-step" data-node="monitor"><span>05</span><p>적용/모니터링</p></div></div></section>
+        <aside class="side-panel" aria-label="MRCP 연동 로그"><div class="panel-header compact"><div><p class="eyebrow">연동 로그</p><h2>MRCP / IVR 이벤트</h2></div><button id="clearLog" class="icon-button" title="로그 지우기">×</button></div><ol id="eventLog" class="event-log"></ol></aside>
       </section>
     </main>
-
+    <script>(()=>{const p=new URLSearchParams(location.search),m=p.get('potpolio')==='1';if(m){let r=document.head.querySelector('meta[name="robots"]');if(!r){r=document.createElement('meta');r.name='robots';document.head.appendChild(r)}r.content='noindex,nofollow,noarchive,nosnippet';document.documentElement.dataset.presentationMode='portfolio';const k=v=>{try{const u=new URL(v,location.href);if(u.origin!==location.origin)return v;u.searchParams.set('potpolio','1');return u.href}catch{return v}};document.addEventListener('click',e=>{const a=e.target.closest?.('a[href]');if(a&&!a.href.startsWith('javascript:')&&!a.href.startsWith('mailto:')&&!a.href.startsWith('tel:'))a.href=k(a.href)},true);['pushState','replaceState'].forEach(n=>{const o=history[n];history[n]=function(s,t,u){return o.call(this,s,t,u?k(u):u)}});return}const s=document.createElement('script');s.src='./presentation-standard.js';s.defer=true;s.dataset.project='콜센터 TTS·MRCP 테스트 콘솔';s.dataset.caseStudy='tts';document.head.appendChild(s)})();</script>
     <script src="./script.js"></script>
   </body>
 </html>
