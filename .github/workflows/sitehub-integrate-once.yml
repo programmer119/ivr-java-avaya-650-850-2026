@@ -1,0 +1,23 @@
+name: SiteHub integrate p23 once
+on:
+  push:
+    branches: [main]
+    paths: ['.github/workflows/sitehub-integrate-once.yml']
+permissions: {contents: write}
+jobs:
+  patch:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Patch initial HTML
+        shell: python
+        env: {SITEHUB_PROJECT: p23, PUBLIC_URL: 'https://programmer119.github.io/ivr-java-avaya-650-850-2026/', DESCRIPTION: 'Java·Avaya 기반 IVR 프로토타입.'}
+        run: |
+          from pathlib import Path
+          import os,re,html
+          p=Path('index.html');s=p.read_text(encoding='utf-8');pid=os.environ['SITEHUB_PROJECT'];m=re.search(r'<title[^>]*>(.*?)</title>',s,re.I|re.S);title=html.unescape(re.sub(r'<[^>]+>','',m.group(1)).strip()) if m else pid;e=lambda x:html.escape(x,quote=True);u=os.environ['PUBLIC_URL'];d=os.environ['DESCRIPTION'];img='https://sitehub.suaveforge.com/assets/namecard-default.png'
+          if f'data-sitehub-project="{pid}"' not in s:
+            b=f'''\n    <!-- SITEHUB-BEGIN -->\n    <meta name="description" content="{e(d)}">\n    <link rel="canonical" href="{e(u)}">\n    <meta property="og:title" content="{e(title)}">\n    <meta property="og:description" content="{e(d)}">\n    <meta property="og:image" content="{img}">\n    <meta property="og:url" content="{e(u)}">\n    <meta property="og:site_name" content="SuaveForge">\n    <meta name="twitter:card" content="summary_large_image">\n    <script async src="https://sitehub.suaveforge.com/analytics-loader.js" data-sitehub-project="{pid}"></script>\n    <!-- SITEHUB-END -->\n''';s,n=re.subn(r'</head\s*>',b+'</head>',s,count=1,flags=re.I);assert n==1;p.write_text(s,encoding='utf-8')
+      - name: Validate and commit
+        run: |
+          set -Eeuo pipefail; grep -q 'data-sitehub-project="p23"' index.html; git config user.name 'SuaveForge SiteHub'; git config user.email '53187583+programmer119@users.noreply.github.com'; git add index.html; git commit -m 'Integrate SiteHub p23'; git push
