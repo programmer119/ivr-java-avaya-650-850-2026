@@ -1,7 +1,7 @@
 name: SiteHub integrate p23 once
 on:
   push:
-    branches: [main]
+    branches: [master]
     paths: ['.github/workflows/sitehub-integrate-once.yml']
 permissions: {contents: write}
 jobs:
@@ -20,4 +20,10 @@ jobs:
             b=f'''\n    <!-- SITEHUB-BEGIN -->\n    <meta name="description" content="{e(d)}">\n    <link rel="canonical" href="{e(u)}">\n    <meta property="og:title" content="{e(title)}">\n    <meta property="og:description" content="{e(d)}">\n    <meta property="og:image" content="{img}">\n    <meta property="og:url" content="{e(u)}">\n    <meta property="og:site_name" content="SuaveForge">\n    <meta name="twitter:card" content="summary_large_image">\n    <script async src="https://sitehub.suaveforge.com/analytics-loader.js" data-sitehub-project="{pid}"></script>\n    <!-- SITEHUB-END -->\n''';s,n=re.subn(r'</head\s*>',b+'</head>',s,count=1,flags=re.I);assert n==1;p.write_text(s,encoding='utf-8')
       - name: Validate and commit
         run: |
-          set -Eeuo pipefail; grep -q 'data-sitehub-project="p23"' index.html; git config user.name 'SuaveForge SiteHub'; git config user.email '53187583+programmer119@users.noreply.github.com'; git add index.html; git commit -m 'Integrate SiteHub p23'; git push
+          set -Eeuo pipefail
+          grep -q 'data-sitehub-project="p23"' index.html
+          git config user.name 'SuaveForge SiteHub'
+          git config user.email '53187583+programmer119@users.noreply.github.com'
+          git add index.html
+          git commit -m 'Integrate SiteHub p23'
+          git push
